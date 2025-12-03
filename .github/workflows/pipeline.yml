@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   simple_deployment_pipeline:
@@ -33,6 +36,7 @@ jobs:
           retention-days: 30
       - name: Create deployment
         uses: sws2apps/render-deployment@v2.0.0
+        if: ${{ github.event_name == 'push' }}
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
