@@ -42,11 +42,11 @@ jobs:
           apiKey: ${{ secrets.RENDER_API_KEY }}
   tag_release:
     needs: [simple_deployment_pipeline]
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
        - name: Bump version and push tag
          uses: anothrNick/github-tag-action@1.75.0
-         if: ${{ github.event_name == 'push' }}
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
            DEFAULT_BUMP: patch
