@@ -1,5 +1,8 @@
 name: Testing stuff
 
+env:
+  SKIP_ENABLED: ${{ contains(join(github.event.commits.*.message, ', '), '#skip')}}
+  
 on:
   push:
     branches:
@@ -22,3 +25,5 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
+      - if: ${{ env.SKIP_ENABLED == 'true' }}
+        run: echo 'this step will not be executed'
