@@ -44,7 +44,7 @@ jobs:
     env:
       SKIP_ENABLED: ${{ contains(join(github.event.commits.*.message, ', '), '#skip')}}
     needs: [simple_deployment_pipeline]
-    if: ${{ github.event_name == 'push' && env.SKIP_ENABLED == 'false' }}
+    if: github.event_name == 'push' && env.SKIP_ENABLED == 'false'
     runs-on: ubuntu-latest
     steps:
        - uses: actions/checkout@v4
