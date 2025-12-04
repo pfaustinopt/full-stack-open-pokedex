@@ -43,13 +43,12 @@ jobs:
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
-      - name: Test Custom
-        uses: rjstone/discord-webhook-notify@v2.2.1
-        if: ${{ success() }}
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.WEBHOOK }}
+        uses: Ilshidur/action-discord@master
         with:
-          webhookUrl: ${{ secrets.WEBHOOK }}
-          severity: info
-          details: Pokedex deployed with success!
+          args: 'Pokedex has been deployed'
 
   tag_release:
     needs: [simple_deployment_pipeline]
